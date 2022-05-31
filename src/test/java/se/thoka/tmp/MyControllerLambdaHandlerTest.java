@@ -1,15 +1,14 @@
 package se.thoka.tmp;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.amazonaws.serverless.exceptions.ContainerInitializationException;
 import com.amazonaws.serverless.proxy.model.AwsProxyRequest;
 import com.amazonaws.serverless.proxy.model.AwsProxyResponse;
 import io.micronaut.http.HttpStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class MyControllerLambdaHandlerTest {
 
@@ -29,7 +28,6 @@ class MyControllerLambdaHandlerTest {
    * Same test case as {@link MyControllerMicronautTest#getStatusMutableHttpResponse_ShouldReturn202Accepted()}
    */
   @Test
-  @Disabled("Expected: 202 Accepted, Actual: 200 OK")
   void getStatusMutableHttpResponse_ShouldReturn202Accepted() {
     // Given
     AwsProxyRequest request = new AwsProxyRequest();
@@ -48,7 +46,6 @@ class MyControllerLambdaHandlerTest {
    * Same test case as {@link MyControllerMicronautTest#getStatusHttpResponse_ShouldReturn202Accepted()}
    */
   @Test
-  @Disabled("Expected: 202 Accepted, Actual: 200 OK")
   void getStatusHttpResponse_ShouldReturn202Accepted() {
     // Given
     AwsProxyRequest request = new AwsProxyRequest();
