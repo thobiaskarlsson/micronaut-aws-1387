@@ -1,18 +1,19 @@
 package se.thoka.tmp;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import io.micronaut.core.type.Argument;
-import io.micronaut.http.HttpMethod;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
-import io.micronaut.http.MutableHttpRequest;
+import io.micronaut.http.MediaType;
 import io.micronaut.http.client.HttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @MicronautTest
 class MyControllerMicronautTest {
@@ -24,39 +25,43 @@ class MyControllerMicronautTest {
   @Test
   void getStatusMutableHttpResponse_ShouldReturn202Accepted() {
     // Given
-    MutableHttpRequest<Object> request = HttpRequest.create(HttpMethod.GET, "/test/status-mutable-http-response");
+    HttpRequest<?> request = HttpRequest.GET("/test/status-mutable-http-response").accept(MediaType.TEXT_PLAIN);
 
     // When
     HttpResponse<String> response = client.toBlocking().exchange(request, Argument.of(String.class));
 
     // Then
-    assertThat(response.getBody()).hasValue("Testing getStatusMutableHttpResponse");
     assertThat(response.getStatus().getCode()).isEqualTo(HttpStatus.ACCEPTED.getCode());
+    assertTrue(response.getBody().isPresent());
+    assertEquals("Testing getStatusMutableHttpResponse", response.getBody().get());
   }
 
   @Test
   void getStatusHttpResponse_ShouldReturn202Accepted() {
     // Given
-    MutableHttpRequest<Object> request = HttpRequest.create(HttpMethod.GET, "/test/status-http-response");
+    HttpRequest<?> request = HttpRequest.GET("/test/status-http-response").accept(MediaType.TEXT_PLAIN);
 
     // When
     HttpResponse<String> response = client.toBlocking().exchange(request, Argument.of(String.class));
 
     // Then
-    assertThat(response.getBody()).hasValue("Testing getStatusHttpResponse");
-    assertThat(response.getStatus().getCode()).isEqualTo(HttpStatus.ACCEPTED.getCode());
+    assertEquals(response.getStatus().getCode(), HttpStatus.ACCEPTED.getCode());
+    assertTrue(response.getBody().isPresent());
+    assertEquals("Testing getStatusHttpResponse", response.getBody().get());
+
   }
 
   @Test
   void getAnnotatedStatus_ShouldReturn202Accepted() {
     // Given
-    MutableHttpRequest<Object> request = HttpRequest.create(HttpMethod.GET, "/test/status-annotated");
+    HttpRequest<?> request = HttpRequest.GET("/test/status-annotated").accept(MediaType.TEXT_PLAIN);
 
     // When
     HttpResponse<String> response = client.toBlocking().exchange(request, Argument.of(String.class));
 
     // Then
-    assertThat(response.getBody()).hasValue("Testing getStatusAnnotated");
-    assertThat(response.getStatus().getCode()).isEqualTo(HttpStatus.ACCEPTED.getCode());
+    assertEquals(response.getStatus().getCode(), HttpStatus.ACCEPTED.getCode());
+    assertTrue(response.getBody().isPresent());
+    assertEquals("Testing getStatusAnnotated", response.getBody().get());
   }
 }
